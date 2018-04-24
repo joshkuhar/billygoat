@@ -1,19 +1,26 @@
-'use strict'
+'use strict';
 
-var billygoat = function(glossary) {    
+var billygoat = function(name, glossary, rigid) {    
 
-    var billygoat = {}
+    var billygoat = {};
+    
+    var billygoatName = name || 'The document';
 
     this.createDocument = function(documentToDefine) {
-        billygoat = documentToDefine
+        
+        if ( glossary ) {
+            checkGlossaryWhenCreating(documentToDefine);
+        }
+
+        billygoat = documentToDefine;
     }
 
-    var checkGlossary = function(params) {
-        var keysGloss = Object.keys( glossary )
-        var keysParams = Object.keys(params)
+    var checkGlossaryWhenCreating = function(params) {
+        var keysGloss = Object.keys( glossary );
+        var keysParams = Object.keys( params );
     
         for(var defined in keysParams){
-            var found = false
+            var found = false;
 
             for(var entry in keysGloss){
                 if(keysParams[defined] === keysGloss[entry]){
@@ -23,95 +30,94 @@ var billygoat = function(glossary) {
             }
 
             if(!found){
-                throw "Missing property ' " + keysParams[defined] + " '. Make sure to define property in glossary"
+                throw "Missing " + keysParams[defined] + " from glossary. Make sure to define property in glossary.";
             }
         }
 
-        return 1
-    }
+        return 1;
+    } 
 
-    var checkLengthsMatch = function(array) {
-        var first = array.length;
-        var second = Object.keys(billygoat).length 
+    var checkLengthsMatch = function(arrayOfKeysFromDocumentToCheck) {
+
+        var first = arrayOfKeysFromDocumentToCheck.length;
+        var second = Object.keys(billygoat).length;         
 
         if( first > second ){            
-            throw "document has more properties than defined"
-        } 
-        if ( first < second ){
-           throw "document has less properties than defined"
+            throw "The " + billygoatName + " has more properties than expected.";
+        }
+
+        if ( rigid==="rigid" && first < second ){
+           throw "The " + billygoatName + " has has less properties than expected.";
         }
 
     }
 
     var checkOtherTypes = function(value, key) {
 
-        var name = billygoat[key].name.toLowerCase()
+        var name = billygoat[key].name.toLowerCase();
 
         if( typeof value === 'object' ) {         
             
             if( name === 'array' && value.length ) {
-                
-                return name
+
+                return name;
 
             } else if ( name === 'date' && Object.prototype.toString.call(value) === '[object Date]' ) {
-                
-                return name
+
+                return name;
 
             } else {
 
-                return -1
-
+                return -1;
             }
 
         } else {
 
-            return -1
-            
+            return -1;            
         }
     }
 
     var checkDocument = function(value, key) {
-
-        var name = billygoat[key].name.toLowerCase()
+        var name = billygoat[key].name.toLowerCase();
  
         if( typeof value !== name ) {
            
-            return checkOtherTypes( value, key ) 
+            return checkOtherTypes( value, key ); 
 
         } else {
 
-            return name
+            return name;
         }
     }
 
     var check = function(documentToCheck) {
-        var keys = Object.keys(documentToCheck)
+        var keys = Object.keys(documentToCheck);
         
-        checkLengthsMatch( keys )
+        checkLengthsMatch( keys );
 
         for (var i in keys) {
-            var key = keys[i]
+            var key = keys[i];
             
             if ( checkDocument( documentToCheck[key], key ) < 0 ) {
-                throw "property '" + key + "' is supposed to be a '" + billygoat[key].name + "'"
+                throw "The property " + key + ": '" + glossary[key] + ".' is supposed to be a " + billygoat[key].name;
             }
         }
         
-        return documentToCheck
+        return documentToCheck;
       
     }
 
     this.pass = function(documentToPass) {
 
         if ( glossary ) {
-            checkGlossary(documentToPass)            
+            checkGlossaryWhenCreating(documentToPass);
         }
 
-        return check(documentToPass)                     
+        return check(documentToPass);                     
     }    
 }
 
-module.exports = billygoat
+module.exports = billygoat;
 
 
 
