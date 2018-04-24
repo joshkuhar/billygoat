@@ -31,7 +31,7 @@ Create a new instance like so  `var goat = new billygoat('goat', glossary, 'rigi
 * Pass `null` to omit
 
 #### First Parameter
-The first parameter is a `String` that will be included in an error. Matching the name to the instance will help locating the error.
+The first parameter is a `String` that will be included in an error. Matching the name to the instance will help in locating the error.
 
 #### Second Paramater
 The second parameter is a flat, JavaScript `Object` that represents the glossary. The glossary is the record of all of your field names for your documents.
@@ -129,7 +129,7 @@ bridge.defineDocument({
     longitude: Number,
     latitude: Number,
     id: String,
-    actors: Object
+    actors: Array
 });
 
 exports.goat = goat;
@@ -175,8 +175,8 @@ var troll = Story.troll.pass({
     mood: "grumpy"
 })
 
-var stoneyBridge = Story.bridge.pass({
-    name: "Stoney Bridge",
+var stonyBridge = Story.bridge.pass({
+    name: "Stony Bridge",
     id: "bridge1",
     latitude: 40.071881,
     longitude: -75.225580,
