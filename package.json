@@ -1,7 +1,7 @@
 {
   "name": "billygoat",
   "version": "0.1.0",
-  "description": "Schema validation",
+  "description": "Lightweight, shallow, client-side schema validation",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

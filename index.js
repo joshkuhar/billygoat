@@ -6,7 +6,7 @@ var billygoat = function(name, glossary, rigid) {
     
     var billygoatName = name || 'The document';
 
-    this.createDocument = function(documentToDefine) {
+    this.defineDocument = function(documentToDefine) {
         
         if ( glossary ) {
             checkGlossaryWhenCreating(documentToDefine);
