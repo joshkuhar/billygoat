@@ -16,7 +16,7 @@ Requests for clarificaiton can be made by opening an issue. Documentation will b
 
 ## Usage
 
-When creating a data model with a non-relational database, denormalizing your data is common. Keeping track of your documents and what fields are used in each one can be difficult. Using billygoat to enforce your schema can help reduce the complexity and maintainability of your app.
+When creating a data model with a non-relational database, denormalizing your data is common. Keeping track of your documents and what fields are used in each one can be difficult. Using billygoat to enforce your schema can help reduce the complexity and increase the ease of maintainability of your app.
 
 ### Overview
 You can use billygoat in three simple steps.
@@ -65,17 +65,18 @@ Billygoat can take three parameters.
 * All parameters are optional
 * Pass `null` to omit paramater
 
-##### First Parameter
+#### First Parameter
+
 The first parameter is a `String` that will be included in an error. Passing a string that matches the name of billygoat instance will help in locating the error.
 
-##### Second Paramater
+#### Second Paramater
 The second parameter is a flat, JavaScript `Object` that represents your **glossary**. If you want to call it a dictionary or associative array that's fine. The **glossary** is the record of all of your field names in your documents. As data is duplicated in your database (denormalized), it helps to keep a list of the field names in your document. 
 
 Only the **glossary's** keys will be checked. You can write a short, descriptive sentence for each value. It's better to make your **glossary** flat and readable and the values succinct, as opposed to nested objects and wordy definitions. 
 
 Billygoat does not check nested objects. 
 
-##### Third Parameter
+#### Third Parameter
 The third paramter is the optional string `'rigid'`. 
 
 If `'rigid'` is passed in, billygoat will check if the document being created has exactly as many fields as the schema. If `'rigid'` is omitted, it will only throw an error if the document being created has more fields than the schema. 
@@ -118,7 +119,7 @@ Omitting 'rigid' allows for newer documents to have more fields than older docum
 
 Billygoat has two methods.
 
-##### `defineDocument()`
+#### `defineDocument()`
 `defineDocument` defines the schema for the document. It throws an error if a glossary has been passed in, and one of the keys does not match to any of the keys in the glossary. It does not check nested documents. This is intentional to encourage denormalization. You can create separate schemas for nested documents. See the Example.
 
 ```
@@ -129,7 +130,7 @@ goat.defineDocument({
 });
 ```
 
-##### `pass()`
+#### `pass()`
 If the document passed in does not throw an error, the `pass()` method returns a JavascriptObject. Throws an error if the types do not match, if the number of fields differ according to 'rigid', or if one or more of the fields are not in the glossary was passed in. 
 
 ```
@@ -203,7 +204,7 @@ goat.defineDocument({
     age: Number,
     id: String,
     message: String,
-    event: String
+    events: Array
 });
 
 troll.defineDocument({
@@ -212,7 +213,7 @@ troll.defineDocument({
     id: String,
     mood: String,
     message: String,
-    event: String
+    events: Array
 });
 
 bridge.defineDocument({
@@ -293,6 +294,7 @@ If you are using Google Cloud Firestore, you can update all of the documents to 
 // Get a new write batch
 var batch = db.batch();
 
+
 // Set the goat documents
 var g1 = db.collection("actors").doc(firstGoat.id);
 batch.set(g1, firstGoat);
@@ -306,6 +308,7 @@ batch.set(g3, thirdgoat);
 // Set the troll document
 var t1 = db.collection("actors").doc(troll.id);
 batch.set(t1, troll);
+
 
 // Set the bridge document
 var b1 = db.collection("events").doc(stonyBridge.id);
