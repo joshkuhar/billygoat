@@ -8,7 +8,7 @@ Lightweight, shallow, client-side schema validation. Billygoat helps keep track 
 
 ## Version
 
-Billygoat **0.1.5** is currently in **beta** and breaking changes may follow with later versions. 
+Billygoat is currently in **BETA** and breaking changes may follow with later versions. 
 
 ## Documentation
 
