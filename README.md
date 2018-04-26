@@ -30,8 +30,8 @@ var goat = new billygoat();
 ```
 goat.defineDocument({
     name: String,
-    age: Number,
-    id: String
+    id: String,
+    age: Number
 });
 ```
 
@@ -42,8 +42,8 @@ If your documents values don't match the corresponding key/value type defined in
 ```   
 var firstGoat = goat.pass({
     name: "Gruff",
-    age: 12,
-    id: "g1"
+    id: "g1",
+    age: 12
 });
 
 console.log(firstGoat); 
@@ -83,7 +83,7 @@ If `'rigid'` is passed in, billygoat will check if the document being created ha
 
 For example
 
-This will **always** throw an error.
+This will **ALWAYS** throw an error.
 ```
 goat.defineDocument({
     name: String,
@@ -93,26 +93,33 @@ goat.defineDocument({
 var firstGoat = goat.pass({
     name: "Gruff",
     id: "g1",
-    age: 12
+    age: 12,
+    message: String
 })
 ```
 
 
-This will **only** throw an error if `'rigid'` is passed in when instantiated.
+This will **SOMETIMES** throw an error. 
+
+Billygoat's default behavior will let it pass. 
+
+Billygoat will only throw an error if `'rigid'` is passed into the third argument.
 ```
 goat.defineDocument({
     name: String,
+    id: String,
     age: Number,
-    id: String
+    message: String,
+    events: Array
 });
 
 var firstGoat = goat pass({
     name: "Gruff",
-    age: 12
+    id: String
 })
 
 ```
-Omitting `'rigid'` allows for newer documents to have more fields than older documents that were created from a schema with fewer fields. In other words, the default behavior is to allow for documents to grow.
+Omitting `'rigid'` allows for newer documents to have more fields than older documents that were created from a schema with fewer fields. In other words, the default behavior is to allow for schemas to grow.
 
 #### Methods
 
