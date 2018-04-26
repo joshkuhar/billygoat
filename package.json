@@ -1,6 +1,6 @@
 {
   "name": "billygoat",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Lightweight, simple, client-side schema validation for databases like Google Cloud Firestore.",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,20 @@
   "author": "Josh Kuhar",
   "license": "MIT",
   "homepage": "https://github.com/joshkuhar/billygoat#readme",
-  "keywords": ["schema", "firestore", "cloud-firestore", "validation", "data", "client-side", "firebase", "model", "nosql", "db", "documents", "collections"],
+  "keywords": [
+    "schema",
+    "firestore",
+    "cloud-firestore",
+    "validation",
+    "data",
+    "client-side",
+    "firebase",
+    "model",
+    "nosql",
+    "db",
+    "documents",
+    "collections"
+  ],
   "bugs": {
     "url": "https://github.com/joshkuhar/billygoat/issues"
   },
