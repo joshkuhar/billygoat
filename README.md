@@ -21,15 +21,13 @@ When creating a data model with a non-relational database, denormalizing your da
 ### Overview
 You can use billygoat in three simple steps.
 
-#### Create a new instance  
+#### 1 Create a new instance  
 ```
-// step 1
 var goat = new billygoat();
 ```
 
-#### Define your schema for the document
+#### 2 Define your schema for the document
 ```
-//step 2
 goat.defineDocument({
     name: String,
     age: Number,
@@ -37,10 +35,11 @@ goat.defineDocument({
 });
 ```
 
-#### Create your document
-If your documents values don't match the value type defined in the schema an error will be thrown.
-```
-//step 3    
+#### 3 Create your document
+The `pass()` method returns your document as JavaScript Object if it matches your schema. 
+
+If your documents values don't match the corresponding key/value type defined in the schema an error will be thrown.
+```   
 var firstGoat = goat.pass({
     name: "Gruff",
     age: 12,
@@ -62,7 +61,7 @@ console.log(firstGoat);
 Billygoat can take three parameters.
 
 `var firstGoat = new billygoat("goat", glossary, "rigid");`
-* All parameters are optional
+* All parameters are **optional**
 * Pass `null` to omit paramater
 
 #### First Parameter
@@ -113,11 +112,11 @@ var firstGoat = goat pass({
 })
 
 ```
-Omitting 'rigid' allows for newer documents to have more fields than older documents that were created from a schema with fewer fields. In other words, the default behavior is to allow for documents to grow.
+Omitting `'rigid'` allows for newer documents to have more fields than older documents that were created from a schema with fewer fields. In other words, the default behavior is to allow for documents to grow.
 
 #### Methods
 
-Billygoat has two methods.
+Billygoat has two methods, `defineDocument` and `pass()`.
 
 #### `defineDocument()`
 `defineDocument` defines the schema for the document. It throws an error if a glossary has been passed in, and one of the keys does not match to any of the keys in the glossary. It does not check nested documents. This is intentional to encourage denormalization. You can create separate schemas for nested documents. See the Example.
@@ -163,7 +162,7 @@ File Name `glossary.js`
 
 var glossary = {
 
-    name: "name of goat or troll",
+    name: "name of document",
 
     age: "age of goat or troll",
 
@@ -287,9 +286,9 @@ console.log(secondGoat.message); // The next one is fatter.
 console.log(troll.message); // I'm hungry.
 console.log(thirdGoat.message); // Hasta la vista, baby.
 ```
-If you are using Google Cloud Firestore, you can update all of the documents to the database with a batched write. 
-
+ 
 #### Example With Google Cloud Firestore
+If you are using Google Cloud Firestore, you can update all of the documents to the database with a batched write.
 ```
 // Get a new write batch
 var batch = db.batch();
