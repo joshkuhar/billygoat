@@ -118,7 +118,9 @@ Omitting `'rigid'` allows for newer documents to have more fields than older doc
 
 Billygoat has two methods, `defineDocument()` and `pass()`.
 
-#### `defineDocument()` method
+#### `defineDocument()`
+The `defineDocument()` method takes an Object.
+
 `defineDocument()` defines the schema for the document. It throws an error if a glossary has been passed in **AND** one of the keys does not match to any of the keys in the glossary. 
 
 Billygoat does not check nested documents. This is *intentional* to encourage denormalization. 
@@ -133,7 +135,9 @@ goat.defineDocument({
 });
 ```
 
-#### `pass()` method
+#### `pass()` 
+The `pass()` method takes an Object.
+
 If the document passed in does not throw an error, the `pass()` method returns a Javascript Object. 
 
 Billygoat throws an error if the types do not match, if the number of fields differ according to 'rigid', or if one or more of the fields are not in the glossary was passed in. 
