@@ -1,93 +1,146 @@
 billygoat
 =========
 
-Lightweight, shallow, client-side schema validation.
+Lightweight, shallow, client-side schema validation. Billygoat helps keep track of documents created for non-relational databases, such as Google Cloud Firestore and Firebase. 
 
 ## Installation
 `npm install --save billygoat`
 
-## Version 0.1.0
-### Beta
-Billygoat is currently in *beta* and breaking changes may follow with later versions. 
+## Version
 
-### Documentation
-Documentation will be updated frequently. For now, requests for clarificaiton can be made by opening an issue.
+Billygoat **0.1.2** is currently in **beta** and breaking changes may follow with later versions. 
 
-#### Contributors
-Contributors are welcome for bugs and features. Please clone the library and submit a pull request. 
+## Documentation
+
+Requests for clarificaiton can be made by opening an issue. Documentation will be updated frequently.
 
 ## Usage
-Billygoat helps keep track of documents created for non-relational databases, such as Google Cloud Firestore and Firebase. 
 
-When creating a data model with a non-relational database, denormalizing your data is common.
+When creating a data model with a non-relational database, denormalizing your data is common. Keeping track of your documents and what fields are used in each one can be difficult. Using billygoat to enforce your schema can help reduce the complexity and maintainability of your app.
 
-When using a client side query langauge such as Cloud Firestore, keeping track of your documents can take getting used to. Using billygoat to enforce your schema can help reduce the complexity and maintainability of your app.
+### Overview
+You can use billygoat in three simple steps.
 
-## Initialize
-Create a new instance like so  `var goat = new billygoat('goat', glossary, 'rigid')`
+#### Create a new instance  
+```
+// step 1
+var goat = new billygoat();
+```
 
-### Parameters
+#### Define your schema for the document
+```
+//step 2
+goat.defineDocument({
+    name: String,
+    age: Number,
+    id: String
+});
+```
+
+#### Create your document
+If your documents values don't match the value type defined in the schema an error will be thrown.
+```
+//step 3    
+var firstGoat = goat.pass({
+    name: "Gruff",
+    age: 12,
+    id: "g1"
+});
+
+console.log(firstGoat); 
+
+// will print JavaScript Object
+// {
+//    name: "Gruff", 
+//    age: 12, 
+//    id: "g1" 
+// }
+```
+
+### In Depth
+#### Parameters
+Billygoat can take three parameters.
+
+`var firstGoat = new billygoat("goat", glossary, "rigid");`
 * All parameters are optional
-* Pass `null` to omit
+* Pass `null` to omit paramater
 
-#### First Parameter
-The first parameter is a `String` that will be included in an error. Matching the name to the instance will help in locating the error.
+##### First Parameter
+The first parameter is a `String` that will be included in an error. Passing a string that matches the name of billygoat instance will help in locating the error.
 
-#### Second Paramater
-The second parameter is a flat, JavaScript `Object` that represents the glossary. The glossary is the record of all of your field names for your documents.
+##### Second Paramater
+The second parameter is a flat, JavaScript `Object` that represents your **glossary**. If you want to call it a dictionary or associative array that's fine. The **glossary** is the record of all of your field names in your documents. As data is duplicated in your database (denormalized), it helps to keep a list of the field names in your document. 
 
-#### Third Parameter
-The third paramter is the optional string 'rigid'. If passed in, billygoat will check if the document being written has as many fields as the schema. If omitted, it will throw an error only if the document being written has more than the schema. Omitting 'rigid' allows for newer documents to have more fields than legacy documents.
+Only the **glossary's** keys will be checked. You can write a short, descriptive sentence for each value. It's better to make your **glossary** flat and readable and the values succinct, as opposed to nested objects and wordy definitions. 
 
-## Methods
-#### `defineDocument()`
-Defines the schema for the document. Throws an error if glossary has been passed in, and the fields do not match. It remains shallow and will not check nested documents. This is intentional to encourage denormalization. You can create separate schemas for nested documents. See the Example.
+Billygoat does not check nested objects. 
+
+##### Third Parameter
+The third paramter is the optional string `'rigid'`. 
+
+If `'rigid'` is passed in, billygoat will check if the document being created has exactly as many fields as the schema. If `'rigid'` is omitted, it will only throw an error if the document being created has more fields than the schema. 
+
+
+For example
+
+This will **always** throw an error.
+```
+goat.defineDocument({
+    name: String,
+    id: String
+});
+
+var firstGoat = goat pass({
+    name: "Gruff",
+    id: "g1",
+    age: 12
+})
+```
+
+
+This will **only** throw an error if `'rigid'` is passed in when instantiated.
+```
+goat.defineDocument({
+    name: String,
+    age: Number,
+    id: String
+});
+
+var firstGoat = goat pass({
+    name: "Gruff",
+    age: 12
+})
+
+```
+Omitting 'rigid' allows for newer documents to have more fields than older documents that were created from a schema with fewer fields. In other words, the default behavior is to allow for documents to grow.
+
+#### Methods
+
+Billygoat has two methods.
+
+##### `defineDocument()`
+`defineDocument` defines the schema for the document. It throws an error if a glossary has been passed in, and one of the keys does not match to any of the keys in the glossary. It does not check nested documents. This is intentional to encourage denormalization. You can create separate schemas for nested documents. See the Example.
 
 ```
 goat.defineDocument({
-        name: String,
-        age: Number,
-        id: String
-    })
+    name: String,
+    age: Number,
+    id: String
+});
 ```
 
-#### `pass()`
-Returns a JavascriptObject if the types match. Throws an error if the types do not match, if the number of fields differ according to 'rigid', or if one or more of the fields are not in the glossary, if the glossary was passsed in. 
+##### `pass()`
+If the document passed in does not throw an error, the `pass()` method returns a JavascriptObject. Throws an error if the types do not match, if the number of fields differ according to 'rigid', or if one or more of the fields are not in the glossary was passed in. 
 
 ```
-goat.pass({
-        name: "Gruff",
-        age: 12,
-        id: "g1"
-    })
+var firstGoat = goat.pass({
+    name: "Gruff",
+    age: 12,
+    id: "g1"
+})
 ```
 
-## Example
-#### Glossary
-First define your `glossary`. Creating a different file striclty for the glossary is recommended. 
-
-The `glossary` is a FLAT javascript object that contains key/value pairs of your data field names. This will help prevent unintended, different naming.
-
-File Name `glossary.js`
-```
-'use strict';
-
-var glossary = {
-    name: "name of goat or troll",
-    age: "age of goat or troll",
-    id: "id associated with the document",
-    latitude: "latitude of the event",
-    longitude: "longitude of the event",
-    mood: "Mood of troll",
-    message: "Message delivered by either troll or goat",
-    actors: "List of names"
-}
-
-module.exports = glossary
-```
-#### Schema
-Next, define your schema. Again, its helpful to create a separate file for the schema. Below, there are three document types defined. A `billygoat`, `troll`, and `bridge`.
-
+#### Data Types
 The following datatypes are currently validated.
 
 * `String`
@@ -97,6 +150,40 @@ The following datatypes are currently validated.
 * `Array`
 * `Object`
 
+## Example
+#### Define your glossary
+First define your `glossary`.
+
+Again, the `glossary` is a FLAT javascript object that contains key/value pairs of your data field names. T
+
+File Name `glossary.js`
+```
+'use strict';
+
+var glossary = {
+
+    name: "name of goat or troll",
+
+    age: "age of goat or troll",
+
+    id: "id associated with the document",
+
+    latitude: "latitude of the event",
+
+    longitude: "longitude of the event",
+
+    mood: "Mood of troll",
+
+    message: "Message delivered by either troll or goat",
+
+    actors: "List of names"
+}
+
+module.exports = glossary;
+```
+#### Define your document schema
+Next, define your schemas.
+
 File Name `billygoats.js`
 ```
 'use strict';
@@ -105,15 +192,18 @@ var Billygoat = require('billygoat');
 
 var glossary = require('./glossary');
 
+// create instances of billygoat
 var goat = new Billygoat("goat", glossary);
 var troll = new Billygoat("troll", glossary);
 var bridge = new Billygoat("bridge", glossary);
 
+// define your schemas
 goat.defineDocument({
     name: String,
     age: Number,
     id: String,
-    message: String
+    message: String,
+    event: String
 });
 
 troll.defineDocument({
@@ -121,7 +211,8 @@ troll.defineDocument({
     age: Number,
     id: String,
     mood: String,
-    message: String
+    message: String,
+    event: String
 });
 
 bridge.defineDocument({
@@ -132,13 +223,14 @@ bridge.defineDocument({
     actors: Array
 });
 
+// export your schemas
 exports.goat = goat;
 exports.troll = troll;
 exports.bridge = bridge;
 ```
 
 #### Pass
-The last thing is to pass an object that matches the schema.
+The last thing is to create a document that matches the schema.
 
 File Name `index.js`
 ```
@@ -150,21 +242,24 @@ var firstGoat = Story.goat.pass({
     name: "Gruff",
     age: 9,
     id: "g1",
-    message: "There's a tastier one coming after me."
+    message: "There's a tastier one coming after me.",
+    events: ["bridge1"]
 });
 
 var secondGoat = Story.goat.pass({
     age: 15,
     name: "Gruff",
     id: "g2",
-    message: "The next one is fatter."
+    message: "The next one is fatter.",
+    events: ["bridge1"]
 });
 
 var thirdGoat = Story.goat.pass({
     name: "Gruff",
     age: 25,
     id: "g3",
-    message: "Hasta la vista, baby."
+    message: "Hasta la vista, baby.",
+    events: ["bridge1"]
 })
 
 var troll = Story.troll.pass({
@@ -172,7 +267,8 @@ var troll = Story.troll.pass({
     age: 438,
     id: "t1",
     message: "I'm hungry.",
-    mood: "grumpy"
+    mood: "grumpy",
+    events: ["bridge1"]
 })
 
 var stonyBridge = Story.bridge.pass({
@@ -192,4 +288,38 @@ console.log(thirdGoat.message); // Hasta la vista, baby.
 ```
 If you are using Google Cloud Firestore, you can update all of the documents to the database with a batched write. 
 
+#### Example With Google Cloud Firestore
+```
+// Get a new write batch
+var batch = db.batch();
+
+// Set the goat documents
+var g1 = db.collection("actors").doc(firstGoat.id);
+batch.set(g1, firstGoat);
+
+var g2 = db.collection("actors").doc(secondGoat.id);
+batch.set(g2, secondGoat);
+
+var g3 = db.collection("actors").doc(secondGoat.id);
+batch.set(g3, thirdgoat);
+
+// Set the troll document
+var t1 = db.collection("actors").doc(troll.id);
+batch.set(t1, troll);
+
+// Set the bridge document
+var b1 = db.collection("events").doc(stonyBridge.id);
+batch.set(b1, stonyBridge);
+
+// Commit the batch
+batch.commit().then(function () {
+    // ...
+});
+```
+
+## Testing
+Testing will be released with version 0.2.0
+
+## Contributing
+Contributors are welcome for bugs and features. Please clone the library and submit a pull request. 
 

@@ -23,7 +23,7 @@ var billygoat = function(name, glossary, rigid) {
             var found = false;
 
             for(var entry in keysGloss){
-                if(keysParams[defined] === keysGloss[entry]){
+                if(keysParams[defined] === keysGloss[entry]) {
                     found=true;
                     break;
                 }
