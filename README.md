@@ -8,7 +8,7 @@ Lightweight, shallow, client-side schema validation. Billygoat helps keep track 
 
 ## Version
 
-Billygoat **0.1.2** is currently in **beta** and breaking changes may follow with later versions. 
+Billygoat **0.1.3** is currently in **beta** and breaking changes may follow with later versions. 
 
 ## Documentation
 
@@ -60,7 +60,7 @@ console.log(firstGoat);
 #### Parameters
 Billygoat can take three parameters.
 
-`var firstGoat = new billygoat("goat", glossary, "rigid");`
+`var goat = new billygoat("goat", glossary, "rigid");`
 * All parameters are **optional**
 * Pass `null` to omit paramater
 
@@ -90,7 +90,7 @@ goat.defineDocument({
     id: String
 });
 
-var firstGoat = goat pass({
+var firstGoat = goat.pass({
     name: "Gruff",
     id: "g1",
     age: 12
@@ -116,10 +116,14 @@ Omitting `'rigid'` allows for newer documents to have more fields than older doc
 
 #### Methods
 
-Billygoat has two methods, `defineDocument` and `pass()`.
+Billygoat has two methods, `defineDocument()` and `pass()`.
 
-#### `defineDocument()`
-`defineDocument` defines the schema for the document. It throws an error if a glossary has been passed in, and one of the keys does not match to any of the keys in the glossary. It does not check nested documents. This is intentional to encourage denormalization. You can create separate schemas for nested documents. See the Example.
+#### `defineDocument()` method
+`defineDocument()` defines the schema for the document. It throws an error if a glossary has been passed in **AND** one of the keys does not match to any of the keys in the glossary. 
+
+Billygoat does not check nested documents. This is *intentional* to encourage denormalization. 
+
+You can create separate schemas for nested documents. See the Example.
 
 ```
 goat.defineDocument({
@@ -129,8 +133,10 @@ goat.defineDocument({
 });
 ```
 
-#### `pass()`
-If the document passed in does not throw an error, the `pass()` method returns a JavascriptObject. Throws an error if the types do not match, if the number of fields differ according to 'rigid', or if one or more of the fields are not in the glossary was passed in. 
+#### `pass()` method
+If the document passed in does not throw an error, the `pass()` method returns a Javascript Object. 
+
+Billygoat throws an error if the types do not match, if the number of fields differ according to 'rigid', or if one or more of the fields are not in the glossary was passed in. 
 
 ```
 var firstGoat = goat.pass({
@@ -151,10 +157,10 @@ The following datatypes are currently validated.
 * `Object`
 
 ## Example
-#### Define your glossary
+### Define your glossary
 First define your `glossary`.
 
-Again, the `glossary` is a FLAT javascript object that contains key/value pairs of your data field names. T
+Again, the `glossary` is a FLAT javascript object that contains key/value pairs of your data field names.
 
 File Name `glossary.js`
 ```
@@ -181,8 +187,7 @@ var glossary = {
 
 module.exports = glossary;
 ```
-#### Define your document schema
-Next, define your schemas.
+### Define your document schema
 
 File Name `billygoats.js`
 ```
@@ -229,8 +234,8 @@ exports.troll = troll;
 exports.bridge = bridge;
 ```
 
-#### Pass
-The last thing is to create a document that matches the schema.
+### Pass
+Finally, create a document that matches the schema.
 
 File Name `index.js`
 ```
@@ -287,7 +292,7 @@ console.log(troll.message); // I'm hungry.
 console.log(thirdGoat.message); // Hasta la vista, baby.
 ```
  
-#### Example With Google Cloud Firestore
+### Example With Google Cloud Firestore
 If you are using Google Cloud Firestore, you can update all of the documents to the database with a batched write.
 ```
 // Get a new write batch
@@ -323,5 +328,5 @@ batch.commit().then(function () {
 Testing will be released with version 0.2.0
 
 ## Contributing
-Contributors are welcome for bugs and features. Please clone the library and submit a pull request. 
+Contributors are welcome for bugs and features. Please submit a pull request. 
 
