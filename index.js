@@ -9,34 +9,50 @@ var billygoat = function(name, glossary, rigid) {
     this.defineDocument = function(documentToDefine) {
         
         if ( glossary ) {
-            checkGlossaryWhenCreating(documentToDefine);
+            checkGlossary(documentToDefine);
         }
 
         billygoat = documentToDefine;
     }
 
-    var checkGlossaryWhenCreating = function(params) {
-        var keysGloss = Object.keys( glossary );
-        var keysParams = Object.keys( params );
-    
-        for(var defined in keysParams){
-            var found = false;
+    var printMissingKeys = function(arrayOfKeys) {
+        return arrayOfKeys.join(", ");
+    }
 
-            for(var entry in keysGloss){
-                if(keysParams[defined] === keysGloss[entry]) {
-                    found=true;
+    var checkGlossary = function(documentToCompare) {
+        var keysGlossary = Object.keys( glossary );
+        var keysDocument = Object.keys( documentToCompare );
+        
+        var documentLength = keysDocument.length;
+        var keysFound = 0;
+
+        for( var entry in keysGlossary ) {
+
+            if ( keysFound === documentLength ) {               
+                break;
+            }
+
+            for ( var key in keysDocument ) {
+                if (keysGlossary[entry] === keysDocument[key] ) {
+                    keysDocument.splice(key, 1);
+                    keysFound++;
                     break;
                 }
             }
 
-            if(!found){
-                throw "Missing " + keysParams[defined] + " from glossary. Make sure to define property in glossary.";
-            }
         }
 
-        return 1;
-    } 
+        if( keysDocument.length > 0 ) {
+            
+            throw "Missing " + printMissingKeys(keysDocument) + " from glossary. Make sure to define property in glossary.";
 
+        } else {
+
+            return 1;
+        }
+
+    }
+    
     var checkLengthsMatch = function(arrayOfKeysFromDocumentToCheck) {
 
         var first = arrayOfKeysFromDocumentToCheck.length;
@@ -47,7 +63,7 @@ var billygoat = function(name, glossary, rigid) {
         }
 
         if ( rigid==="rigid" && first < second ){
-           throw "The " + billygoatName + " has has less properties than expected.";
+           throw "The " + billygoatName + " has less properties than expected.";
         }
 
     }
@@ -107,14 +123,29 @@ var billygoat = function(name, glossary, rigid) {
       
     }
 
+
+    // This method will be deprecated
     this.pass = function(documentToPass) {
 
+        console.log("The 'pass' method will be deprecated on or after May 7, 2018. Use 'createDocument' instead");
+
         if ( glossary ) {
-            checkGlossaryWhenCreating(documentToPass);
+            checkGlossary(documentToPass);
         }
 
-        return check(documentToPass);                     
-    }    
+        return check(documentToPass);      
+
+    }
+
+    this.createDocument = function(documentToCreate) {
+
+        if ( glossary ) {
+            checkGlossary(documentToCreate);
+        }
+
+        return check(documentToCreate); 
+    }
+
 }
 
 module.exports = billygoat;
