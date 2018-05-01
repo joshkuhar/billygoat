@@ -79,7 +79,7 @@ When creating an instance of **billygoat**, three optional parameters can be pas
 
 The first parameter **name** is a `String` that will be included if an error is thrown. Passing a string that matches the name of billygoat instance will help in locating the error. 
 
-For example, `var firstGoat = new billygoat('goat')` `'goat'` will refer to the variable name `firstGoat` from an error is thrown from one of its methods. 
+For example, `var firstGoat = new Billygoat('goat')` `'goat'` will refer to the variable name `firstGoat` from an error is thrown from one of its methods. 
 
 ### Glossary - second parameter
 The second parameter **glossary** is a flat, JavaScript `Object` that represents your **glossary**. If you want to call it a dictionary or associative array that's fine. 
@@ -101,7 +101,7 @@ var glossary = {
 ### 'rigid' - third parameter
 The third paramter is the optional string **'rigid'**. 
 
-If **'rigid'** is passed in, billygoat will check if the document being created has exactly as many fields as the schema. If **'rigid'** is omitted, it will only throw an error if the document being created has more fields than the schema. 
+If **'rigid'** is passed in, **billygoat** will check if the document being created has exactly as many fields as the schema. If **'rigid'** is omitted, it will only throw an error if the document being created has more fields than the schema. 
 
 
 For example, this will **ALWAYS** throw an error.
@@ -136,11 +136,11 @@ var firstGoat = goat.createDocument({
 ```
 * The default behavior of **billygoat** is to let the second example pass. 
 * Billygoat will only throw an error if the string **'rigid'** is passed in as the third argument.
-* Using **'rigid'** prevents newer documents from having more fields than older documents. Omitting **'ridig'** allows for schemas to grow.
+* Using **'rigid'** prevents newer documents from having more fields than older documents. Omitting **'rigid'** allows for schemas to grow.
 
 ## Methods
 
-Billygoat has two methods, `.defineDocument()` and `.createDocument()`. Other methods may be exposed with later versisons. 
+Billygoat has two methods, `.defineDocument()` and `.createDocument()`. Other methods will be exposed with later versisons. 
 
 ### .defineDocument()
 The `.defineDocument(<object>)` method takes an object.
