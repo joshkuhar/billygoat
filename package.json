@@ -4,7 +4,7 @@
   "description": "Lightweight, simple, client-side schema validation for databases like Google Cloud Firestore.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Josh Kuhar",
   "license": "MIT",
@@ -26,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/joshkuhar/billygoat/issues"
   },
-  "repository": "github:joshkuhar/billygoat"
+  "repository": "github:joshkuhar/billygoat",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1"
+  }
 }
