@@ -51,8 +51,8 @@ var billygoat = function(name, glossary, rigid) {
             return 1;
         }
 
-
     }
+    
     var checkLengthsMatch = function(arrayOfKeysFromDocumentToCheck) {
 
         var first = arrayOfKeysFromDocumentToCheck.length;
