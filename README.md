@@ -1,7 +1,9 @@
 billygoat
 =========
 
-Lightweight, shallow, client-side schema validation. Billygoat helps keep track of documents created for non-relational databases, such as Google Cloud Firestore and Firebase. Simple to understand, simple to use.  
+Lightweight, shallow, client-side schema validation. Billygoat helps keep track of documents created for non-relational databases, such as Google Cloud Firestore and Firebase. 
+
+**Simple to use.**
 
 ## Installation
 `npm install --save billygoat`
@@ -28,7 +30,7 @@ You can use **billygoat** in three simple steps.
 #### 1. Create a new instance  
 ```
 var Billygoat = require('billygoat');
-var goat = new billygoat();
+var goat = new Billygoat();
 ```
 
 #### 2. Define your document
@@ -48,7 +50,7 @@ var firstGoat = goat.createDocument({
     age: 12
 });
 
-console.log(firstGoat); 
+console.log(firstGoat); // returns {name: "Gruff", id: "g1", age: 12}
 ```
 
 ## billygoat constructor examples
@@ -64,14 +66,20 @@ console.log(firstGoat);
 ## Parameters
 When creating an instance of **billygoat**, three optional parameters can be passed in.
 
-`var goat = new billygoat(name, glossary, flag);`
+* name - `<String>`
+* glossary - `<Object>`
+* 'rigid' - string **'rigid'** 
+
+`var goat = new billygoat(name, glossary, 'rigid');`
 
 * All parameters are **optional**
-* Pass `null` to omit paramater
+* Pass `null` to skip paramater
 
 ### Name - first parameter
 
-The first parameter **name** is a `String` that will be included if an error is thrown. Passing a string that matches the name of billygoat instance will help in locating the error. For example, `var firstGoat = new billygoat('goat')` `'goat'` will refer to the variable name `'firstGoat'` when an error is thrown on from one of its methods. 
+The first parameter **name** is a `String` that will be included if an error is thrown. Passing a string that matches the name of billygoat instance will help in locating the error. 
+
+For example, `var firstGoat = new billygoat('goat')` `'goat'` will refer to the variable name `firstGoat` from an error is thrown from one of its methods. 
 
 ### Glossary - second parameter
 The second parameter **glossary** is a flat, JavaScript `Object` that represents your **glossary**. If you want to call it a dictionary or associative array that's fine. 
@@ -96,9 +104,7 @@ The third paramter is the optional string **'rigid'**.
 If **'rigid'** is passed in, billygoat will check if the document being created has exactly as many fields as the schema. If **'rigid'** is omitted, it will only throw an error if the document being created has more fields than the schema. 
 
 
-For example
-
-This will **ALWAYS** throw an error.
+For example, this will **ALWAYS** throw an error.
 ```
 goat.defineDocument({
     name: String,
@@ -109,7 +115,7 @@ var firstGoat = goat.createDocument({
     name: "Gruff",
     id: "g1",
     age: 12,
-    message: String
+    message: "The next one is tastier."
 })
 ```
 This will **SOMETIMES** throw an error. 
@@ -124,19 +130,17 @@ goat.defineDocument({
 
 var firstGoat = goat.createDocument({
     name: "Gruff",
-    id: String
+    id: "g1"
 })
 
 ```
-The default behavior of **billygoat** is to let the second example pass. 
-
-Billygoat will only throw an error if the string **'rigid'** is passed in as the third argument.
-
-Using **'rigid'** prevents newer documents from having more fields than older documents. Omitting **'ridig'** allows for schemas to grow.
+* The default behavior of **billygoat** is to let the second example pass. 
+* Billygoat will only throw an error if the string **'rigid'** is passed in as the third argument.
+* Using **'rigid'** prevents newer documents from having more fields than older documents. Omitting **'ridig'** allows for schemas to grow.
 
 ## Methods
 
-Billygoat has two methods, `.defineDocument()` and `.createDocument()`.
+Billygoat has two methods, `.defineDocument()` and `.createDocument()`. Other methods may be exposed with later versisons. 
 
 ### .defineDocument()
 The `.defineDocument(<object>)` method takes an object.
