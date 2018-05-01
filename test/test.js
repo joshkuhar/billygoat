@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var billygoat = require('billygoat');
+var billygoat = require('../index');
 
 var testGlossary = {
     name: String,
@@ -31,6 +31,16 @@ describe('#goat', function() {
                 user: String
             })
         }).to.throw('Missing user from glossary. Make sure to define property in glossary.');
+    });
+
+    it('should throw an error stating document is too long', function() {
+        expect(function() {
+            goat.createDocument({
+                name: "Billy",
+                hasHorns: true,
+                age: 8
+            })
+        }).to.throw('The goat has more properties than expected');
     });
     
     it('should return an object', function() {
@@ -86,3 +96,23 @@ describe('#event', function() {
 
 });
 
+var rigidGoat = new billygoat('rigidGoat', testGlossary, 'rigid');
+
+describe('#rigidGoat', function() {
+
+    it('should return without an error', function() {
+        var result = rigidGoat.defineDocument({
+            name: String,
+            age: Number
+        });
+        expect(result).to.equal(undefined);
+    });
+
+    it('should throw an error stating document is too long', function() {
+        expect(function() {
+            rigidGoat.createDocument({
+                name: "Billy"
+            })
+        }).to.throw('The rigidGoat has less properties than expected');
+    });
+});

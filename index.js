@@ -63,7 +63,7 @@ var billygoat = function(name, glossary, rigid) {
         }
 
         if ( rigid==="rigid" && first < second ){
-           throw "The " + billygoatName + " has has less properties than expected.";
+           throw "The " + billygoatName + " has less properties than expected.";
         }
 
     }
