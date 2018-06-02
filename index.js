@@ -82,15 +82,10 @@ var billygoat = function(name, glossary, rigid) {
 
                 return name;
 
-            } else {
-
-                return -1;
             }
-
-        } else {
-
-            return -1;            
         }
+
+        return -1;
     }
 
     var checkDocument = function(value, key) {
