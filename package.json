@@ -4,6 +4,7 @@
   "description": "Lightweight, simple, client-side schema validation for databases like Google Cloud Firestore.",
   "main": "index.js",
   "scripts": {
+    "start": "npm test",
     "test": "mocha"
   },
   "author": "Josh Kuhar",
