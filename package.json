@@ -1,6 +1,6 @@
 {
   "name": "billygoat",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Lightweight, simple, client-side schema validation for databases like Google Cloud Firestore.",
   "main": "index.js",
   "scripts": {
