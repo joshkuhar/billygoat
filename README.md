@@ -6,13 +6,7 @@ Lightweight, shallow, client-side schema validation. Billygoat helps keep track 
 **Simple to use.**
 
 ## Installation
-`npm install --save billygoat`
-
-## Version
-
-Billygoat is currently in **BETA** and breaking changes may follow with later versions. 
-
-The `pass()` method is now `createDocument()`. The functionality is the same. `pass()` will continue to work but will be deprecated in beta 0.3.0. 
+`npm install --save billygoat` 
 
 ## Documentation
 

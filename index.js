@@ -118,20 +118,6 @@ var billygoat = function(name, glossary, rigid) {
       
     }
 
-
-    // This method will be deprecated
-    this.pass = function(documentToPass) {
-
-        console.log("The 'pass' method will be deprecated on or after May 7, 2018. Use 'createDocument' instead");
-
-        if ( glossary ) {
-            checkGlossary(documentToPass);
-        }
-
-        return check(documentToPass);      
-
-    }
-
     this.createDocument = function(documentToCreate) {
 
         if ( glossary ) {
